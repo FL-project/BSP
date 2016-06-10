@@ -1,0 +1,48 @@
+Authors: Angelo Borsotti
+
+This program contains the implementation of a number of algorithms that match strings against
+Regular Expressions and deliver the parse trees.
+It contains also the generation of a corpus of REs and texts to parse, and the benchmarking
+of the implemented algorithms.
+
+Generation
+
+    The program has been developed with Oracle jdk 1.8, and the Microsoft visual c++:
+
+    javah -jni Re
+        -- this produces a number of include (.h files)
+    c:\"Program Files\Microsoft Visual Studio 12.0\VC\bin\vcvars32"
+        -- this sets a number of environment variables
+    cl /I"c:\Program Files\java\jdk1.8.0\include" /I"c:\Program Files\java\jdk1.8.0\include\win32" /LD re.cpp /Fere.dll
+        -- this produces the native library (re.dll)
+    javac -encoding UTF8  -cp ..\..;. Re.java
+
+Installation
+
+    There is no need to install it, the program can be run directly from a command prompt.
+
+Run
+
+    - generate the corpus of REs and texts (strings)
+      - delete the file samplesN.ser, where N is SNUMBER (see below)
+      - run: java -Dfile.encoding=UTF8 -Xmx1200m -Xss10m  -cp .;..\.. Re 2>tmp
+
+    - run the benchmark
+      - delete the files measure100N.ser, measure1000N.ser, measureCompN.ser, measureMemN.ser,
+        where N is WNUMBER (see below)
+      - make sure that the computer has as few programs running as possible
+      - run start /b /wait /affinity 0x1 java -Dfile.encoding=UTF8 -Xmx1200m -Xss10m  -cp .;..\.. Re 2>tmp
+
+    - display the results:
+      - with Firefox or Chrome open rechartmeaN.html (where N is WNUMBER)
+      - a file rechartmeaN.tex is also produced: it contains the charts for the paper
+
+    N.B. the constants SNUMBER and WNUMBER allow to make several samples and measurements
+    without a need to delete or rename the existing ones.
+    start /affinity runs this program binding it to a core, and a drawback is that no
+    other activity can be done on the computer until the test terminates, and also that to
+    interrump it, the command propmt shell must be terminated.
+    The normal run on the other hand runs the program normally, and it is thus handier
+    when no times are measured.
+
+    For convenience, the samples measurements and chart files have been included.
